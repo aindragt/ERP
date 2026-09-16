@@ -54,6 +54,10 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->authMiddleware([
                 Authenticate::class,
+            ])
+            ->navigationGroups([
+                'Human Resource Management',
+                'Settings'
             ]);
     }
 }
