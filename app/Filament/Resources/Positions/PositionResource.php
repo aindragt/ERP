@@ -21,7 +21,7 @@ class PositionResource extends Resource
 
     protected static string|UnitEnum|null $navigationGroup = 'Human Resource Management';
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::BuildingLibrary;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::Briefcase;
 
     // protected static ?string $recordTitleAttribute = 'name';
 

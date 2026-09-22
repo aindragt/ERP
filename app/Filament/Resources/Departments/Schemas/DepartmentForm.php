@@ -2,9 +2,11 @@
 
 namespace App\Filament\Resources\Departments\Schemas;
 
+use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
+use Filament\Support\Icons\Heroicon;
 
 class DepartmentForm
 {
@@ -13,6 +15,7 @@ class DepartmentForm
         return $schema
             ->components([
                 Section::make('Department Information')
+                ->icon(Heroicon::BuildingOffice2)
                 ->description('isi department information y')
                 ->columns(2)
                 ->columnSpan(3)
@@ -25,7 +28,8 @@ class DepartmentForm
                     ->email(),
                     TextInput::make('phone_number')
                     ->tel(),
-                    TextInput::make('description')
+                    Textarea::make('description')
+                    ->columnSpanFull()
                 ])
 
 

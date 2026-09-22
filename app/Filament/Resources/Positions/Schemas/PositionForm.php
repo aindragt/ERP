@@ -2,8 +2,11 @@
 
 namespace App\Filament\Resources\Positions\Schemas;
 
+use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
+use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
+use Filament\Support\Icons\Heroicon;
 
 class PositionForm
 {
@@ -11,13 +14,41 @@ class PositionForm
     {
         return $schema
             ->components([
-                TextInput::make('name')
+            Section::make('Department Information')
+                ->icon(Heroicon::Briefcase)
+                ->description('isi department information y')
+                ->columns(2)
+                ->columnSpan(3)
+                ->schema([
+                    TextInput::make('name')
                     ->required(),
-                TextInput::make('description'),
-                TextInput::make('allowance')
+                    TextInput::make('description'),
+                    TextInput::make('allowance')
                     ->required()
                     ->numeric()
                     ->default(0),
+                ])
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                // TextInput::make('name')
+                //     ->required(),
+                // TextInput::make('description'),
+                // TextInput::make('allowance')
+                //     ->required()
+                //     ->numeric()
+                //     ->default(0),
             ]);
     }
 }
