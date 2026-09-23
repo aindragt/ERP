@@ -14,9 +14,9 @@ class PositionForm
     {
         return $schema
             ->components([
-            Section::make('Department Information')
+            Section::make('Position Information')
                 ->icon(Heroicon::Briefcase)
-                ->description('isi department information y')
+                ->description('Input information about Position.')
                 ->columns(2)
                 ->columnSpan(3)
                 ->schema([

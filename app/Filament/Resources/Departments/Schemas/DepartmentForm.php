@@ -16,7 +16,7 @@ class DepartmentForm
             ->components([
                 Section::make('Department Information')
                 ->icon(Heroicon::BuildingOffice2)
-                ->description('isi department information y')
+                ->description('Input about Department Information.')
                 ->columns(2)
                 ->columnSpan(3)
                 ->schema([
