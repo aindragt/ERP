@@ -2,10 +2,16 @@
 
 namespace App\Filament\Resources\Leaves\Tables;
 
+// use Filament\Tables\Actions\BulkActionGroup;
+// use Filament\Tables\Actions\DeleteAction;
+// use Filament\Tables\Actions\DeleteBulkAction;
+// use Filament\Tables\Actions\EditAction;
 use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 
 class LeavesTable
@@ -14,35 +20,73 @@ class LeavesTable
     {
         return $table
             ->columns([
-                TextColumn::make('user_id')
-                    ->numeric()
-                    ->sortable(),
+                TextColumn::make('user.name')
+                    ->label('Employee')
+                    ->sortable()
+                    ->searchable()
+                    ->weight('bold'),
+
                 TextColumn::make('leave_type')
-                    ->searchable(),
+                    ->label('Type')
+                    ->badge()
+                    ->color('info') // Warna biru muda
+                    ->formatStateUsing(fn (string $state): string => match ($state) {
+                        'annual' => 'Annual Leave',
+                        'sick' => 'Sick Leave',
+                        'maternity' => 'Maternity Leave',
+                        'unpaid' => 'Unpaid Leave',
+                        'other' => 'Other',
+                        default => ucfirst($state),
+                    }),
+
                 TextColumn::make('start_date')
-                    ->date()
+                    ->label('Start Date')
+                    ->date('d/m/Y')
                     ->sortable(),
+
                 TextColumn::make('end_date')
-                    ->date()
+                    ->label('End Date')
+                    ->date('d/m/Y')
                     ->sortable(),
-                TextColumn::make('status')
+
+                TextColumn::make('reason')
+                    ->label('Reason')
+                    ->limit(30) // Membatasi panjang teks agar tabel tidak melebar berantakan
                     ->searchable(),
-                TextColumn::make('created_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                TextColumn::make('updated_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+
+                TextColumn::make('status')
+                    ->label('Status')
+                    ->badge()
+                    ->color(fn (string $state): string => match ($state) {
+                        'pending' => 'warning', // Kuning/Orange
+                        'approved' => 'success', // Hijau
+                        'rejected' => 'danger', // Merah
+                        default => 'gray',
+                    })
+                    ->formatStateUsing(fn (string $state): string => ucfirst($state)),
             ])
             ->filters([
-                //
+                SelectFilter::make('status')
+                    ->options([
+                        'pending' => 'Pending',
+                        'approved' => 'Approved',
+                        'rejected' => 'Rejected',
+                    ]),
+                
+                SelectFilter::make('leave_type')
+                    ->options([
+                        'annual' => 'Annual Leave',
+                        'sick' => 'Sick Leave',
+                        'maternity' => 'Maternity Leave',
+                        'unpaid' => 'Unpaid Leave',
+                        'other' => 'Other',
+                    ]),
             ])
-            ->recordActions([
+            ->actions([
                 EditAction::make(),
+                DeleteAction::make(),
             ])
-            ->toolbarActions([
+            ->bulkActions([
                 BulkActionGroup::make([
                     DeleteBulkAction::make(),
                 ]),
